@@ -1,0 +1,5 @@
+game-scripts
+dist
+*.exe
+.vscode
+release

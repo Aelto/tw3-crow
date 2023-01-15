@@ -1,0 +1,47 @@
+function CROW_staminaRegenPointSetter(effect: W3RegenEffect, regen_point: float, delta: float): float {
+  if (!effect.CROW_storageCache) {
+    effect.CROW_storageCache = CROW_getStorage().combat_stamina;
+  }
+
+  return regen_point
+    // start by decreasing base passive regen by 85%
+    * 0.15
+    // then for each regen buff add a bonus passive regen
+    + effect.CROW_storageCache.getBuffCount() * 1;
+}
+
+function CROW_damageModifier(
+  action: W3DamageAction,
+  playerAttacker: CR4Player,
+  attackAction: W3Action_Attack
+) {
+  var attacker: CActor;
+
+  attacker = action.attacker as CActor;
+
+  if (action.WasDodged()) {
+    return;
+  }
+
+  // when geralt is the attacker and it's not a DOT
+  if ((attacker as CPlayer) && !(action.victim as CPlayer) && !action.IsDoTDamage()) {
+
+    if (playerAttacker.IsHeavyAttack(attackAction.GetAttackName())) {
+      CROW_getStorage().combat_stamina.addRegenBuff(3);
+      
+      var weapon_entity: CItemEntity;
+      weapon_entity = thePlayer.inv.GetItemEntityUnsafe(thePlayer.inv.GetItemFromSlot('r_weapon'));
+      weapon_entity.PlayEffectSingle('runeword1_fire_trail');
+      weapon_entity.PlayEffectSingle('aerondight_special_trail');
+    }
+
+    else if (playerAttacker.IsLightAttack(attackAction.GetAttackName())) {
+      CROW_getStorage().combat_stamina.addRegenBuff(1);
+      
+      var weapon_entity: CItemEntity;
+      weapon_entity = thePlayer.inv.GetItemEntityUnsafe(thePlayer.inv.GetItemFromSlot('r_weapon'));
+      weapon_entity.PlayEffectSingle('runeword1_fire_trail');
+    }
+
+  }
+}
