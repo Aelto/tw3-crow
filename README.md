@@ -1,5 +1,5 @@
 # Modules
- - [Combat Stamina](/release/mods/modCrowCombatStamina/README.md)
+ - [Combat Stamina](/src/modCrowCombatStamina/README.md)
 
 ## Dependencies
  - `mod_sharedutils_helpers`

@@ -3,7 +3,7 @@ function CROW_staminaRegenPointSetter(effect: W3RegenEffect, regen_point: float,
     effect.CROW_storageCache = CROW_getStorage().combat_stamina;
   }
 
-  var regen_per_stack: float = 1.25 * ((regen_point*regen_point) / (15*15));
+  var regen_per_stack: float = 0.5 * ((regen_point * regen_point + 100) / 100) + 0.2;
 
   return regen_point
     // start by decreasing base passive regen by 85%
