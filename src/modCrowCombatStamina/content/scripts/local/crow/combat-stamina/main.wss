@@ -3,11 +3,13 @@ function CROW_staminaRegenPointSetter(effect: W3RegenEffect, regen_point: float,
     effect.CROW_storageCache = CROW_getStorage().combat_stamina;
   }
 
+  var regen_per_stack: float = 1.25 * ((regen_point*regen_point) / (15*15));
+
   return regen_point
     // start by decreasing base passive regen by 85%
     * 0.15
     // then for each regen buff add a bonus passive regen
-    + effect.CROW_storageCache.getBuffCount() * 1;
+    + effect.CROW_storageCache.getBuffCount() * regen_per_stack;
 }
 
 function CROW_damageModifier(
