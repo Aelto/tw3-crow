@@ -21,6 +21,14 @@ XCOPY "%modpath%\dist\%modname%\" "%modpath%\release\mods\%modname%\" /e /s /y
 set modname=modCrowCommon
 XCOPY "%modpath%\strings" "%modpath%\release\mods\%modName%\content\" /e /s /y
 
+:: copy the sharedutils dependencies
+set modname=mod_sharedutils_helpers
+XCOPY "%modpath%\tw3-shared-utils\%modname%\" "%modpath%\release\mods\%modname%\" /e /s /y
+set modname=mod_sharedutils_storage
+XCOPY "%modpath%\tw3-shared-utils\%modname%\" "%modpath%\release\mods\%modname%\" /e /s /y
+set modname=mod_sharedutils_customcooldowns
+XCOPY "%modpath%\tw3-shared-utils\%modname%\" "%modpath%\release\mods\%modname%\" /e /s /y
+
 :: don't need a menu at the moment
 @REM mkdir "%modpath%\release\bin\config\r4game\user_config_matrix\pc\"
 @REM copy "%modpath%\mod-menu.xml" "%modpath%\release\bin\config\r4game\user_config_matrix\pc\%modname%.xml" /y
