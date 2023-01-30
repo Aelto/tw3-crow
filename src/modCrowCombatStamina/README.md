@@ -20,7 +20,7 @@ any limits to what you can do.
 - Landing a fast attack grants 1 stack of the buff for 10 seconds
 - Landing a heavy attack grants 3 stacks of the buff for 10 seconds
 
-Each stack of the buff grants `0.5 * ((x * x + 100) / 100) + 0.2` stamina per second
+Each stack of the buff grants `0.5 * (x * x + 100) / 100 + 0.2` stamina per second
 where `x` is the stamina regeneration per second you'd have without the mod, meaning
 the base 10stamina/s affected by the gear you wear and the perks you have.
 
