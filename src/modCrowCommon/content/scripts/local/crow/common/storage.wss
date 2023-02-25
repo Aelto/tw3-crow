@@ -4,6 +4,10 @@ class CROW_Storage extends SU_StorageItem {
 
   var combat_stamina: CROW_StorageCombatStamina;
 
+  public function canBeReset(): bool {
+    this.combat_stamina.getBuffCount() <= 0;
+  }
+
   public function init(): CROW_Storage {
     this.combat_stamina = new CROW_StorageCombatStamina in this;
 
@@ -18,6 +22,11 @@ function CROW_getStorage(): CROW_Storage {
 
   // create the data if it's the first time:
   if (!data) {
+    data = (new CROW_Storage in thePlayer).init();
+    SU_getStorage().setItem(data);
+  }
+  
+  if (data.canBeReset()) {
     data = (new CROW_Storage in thePlayer).init();
     SU_getStorage().setItem(data);
   }
