@@ -1,0 +1,4 @@
+
+function CROW_canParryAnything(): bool {
+  return true;
+}

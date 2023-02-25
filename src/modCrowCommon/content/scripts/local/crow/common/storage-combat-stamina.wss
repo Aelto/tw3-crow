@@ -32,6 +32,14 @@ class CROW_StorageCombatStamina {
 
     return this.regen_buff_counter.counter as int;
   }
+
+  public function increaseActiveBuffsDuration(seconds: float) {
+    if (!this.regen_buff_counter) {
+      return;
+    }
+
+    this.regen_buff_counter.increaseActiveBuffsDuration(seconds);
+  }
 }
 
 class CROW_CombatStaminaRegenBuffCounter extends SU_Cooldown {
@@ -65,6 +73,12 @@ class CROW_CombatStaminaRegenBuffCounter extends SU_Cooldown {
     }
 
     this.counter = remaining_buff_count;
+  }
+
+  function increaseActiveBuffsDuration(seconds: float) {
+    for buff: CROW_CombatStaminaRegenBuff in this.regen_buffs {
+      buff.creation_date += seconds;
+    }
   }
 
   function onComplete(): bool {

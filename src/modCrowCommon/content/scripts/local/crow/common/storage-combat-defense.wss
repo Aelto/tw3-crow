@@ -1,0 +1,27 @@
+
+class CROW_StorageCombatDefense {
+
+  var animation_speed_modifiers: array<int>;
+
+  public function newAnimationSpeedModifier(modifier: float) {
+    // the game does not send a OnActionCompleteEvent if we cancel the action to
+    // create a new one, resulting in multiple modifiers. For this reason any time
+    // we push a modifier, we remove the old one.
+    //
+    // Leaving it as a FIFO queue under the hood in case one day we might want
+    // to extend it:
+    this.resetOldestSpeedModifier();
+
+    this.animation_speed_modifiers.PushBack(
+      thePlayer.SetAnimationSpeedMultiplier(modifier, -1)
+    );
+  }
+
+  public function resetOldestSpeedModifier() {
+    if (this.animation_speed_modifiers.Size() > 0) {
+      thePlayer.ResetAnimationSpeedMultiplier( this.animation_speed_modifiers[0] );
+			this.animation_speed_modifiers.EraseFast(0);
+    }
+  }
+
+}

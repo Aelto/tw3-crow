@@ -3,13 +3,16 @@ class CROW_Storage extends SU_StorageItem {
   default tag = "CROW_Storage";
 
   var combat_stamina: CROW_StorageCombatStamina;
+  var combat_defense: CROW_StorageCombatDefense;
 
   public function canBeReset(): bool {
-    this.combat_stamina.getBuffCount() <= 0;
+    return this.combat_stamina.getBuffCount() <= 0
+        && this.combat_defense.animation_speed_modifiers.Size() <= 0;
   }
 
   public function init(): CROW_Storage {
     this.combat_stamina = new CROW_StorageCombatStamina in this;
+    this.combat_defense = new CROW_StorageCombatDefense in this;
 
     return this;
   }
@@ -26,6 +29,7 @@ function CROW_getStorage(): CROW_Storage {
     SU_getStorage().setItem(data);
   }
   
+  LogChannel('CROW', "CROW_getStorage(), data.canBeReset() = " + data.canBeReset());
   if (data.canBeReset()) {
     data = (new CROW_Storage in thePlayer).init();
     SU_getStorage().setItem(data);
