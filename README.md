@@ -1,4 +1,4 @@
-![header](docs/header.png)
+![header](docs/header.webp)
 # CROW - Permissive combat modules
 CROW is a modular package, it consists of multiple mods that you can install individually or combined.
 
