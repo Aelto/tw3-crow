@@ -28,12 +28,10 @@ function CROW_getStorage(): CROW_Storage {
     data = (new CROW_Storage in thePlayer).init();
     SU_getStorage().setItem(data);
   }
-  
-  LogChannel('CROW', "CROW_getStorage(), data.canBeReset() = " + data.canBeReset());
-  if (data.canBeReset()) {
-    data = (new CROW_Storage in thePlayer).init();
-    SU_getStorage().setItem(data);
-  }
 
   return data;
+}
+
+exec function crowfix() {
+  SU_getStorage().setItem((new CROW_Storage in thePlayer).init());
 }

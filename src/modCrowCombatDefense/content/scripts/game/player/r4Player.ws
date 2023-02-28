@@ -1673,6 +1673,10 @@ statemachine abstract import class CR4Player extends CPlayer
 		
 		if(!attacker)
 			return false;
+
+		// CROW - Combat Defense - BEGIN
+		return CROW_counterSpammingCheck(attacker, this.counterTimestamps);
+		// CROW - Combat Defense - END
 		
 		counterWindowStartTime = ((CNewNPC)attacker).GetCounterWindowStartTime();
 		spamCounter = 0;
@@ -2197,12 +2201,20 @@ statemachine abstract import class CR4Player extends CPlayer
 	{
 		uninterruptedHitsCount = 0;
 		LogUnitAtt("Uninterrupted attacks reset!!!!");
+
+		// CROW - Combat Defense - BEGIN
+		this.counterTimestamps.Clear();
+		// CROW - Combat Defense - END
 	}
 	
 	public function IncreaseUninterruptedHitsCount()
 	{
 		uninterruptedHitsCount += 1;
 		LogUnitAtt("Uninterrupted attacks count increased to " + uninterruptedHitsCount);
+
+		// CROW - Combat Defense - BEGIN
+		this.counterTimestamps.Clear();
+		// CROW - Combat Defense - END
 		
 		if(uninterruptedHitsCount == 4)
 			AddTimer('StartUninterruptedBlurr', 1, false);
