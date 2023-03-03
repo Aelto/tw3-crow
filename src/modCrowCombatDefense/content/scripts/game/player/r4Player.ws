@@ -2185,6 +2185,10 @@ statemachine abstract import class CR4Player extends CPlayer
 	public function ReceivedCombatDamage()
 	{
 		receivedDamageInCombat = true;
+
+		// CROW - Combat Defense - BEGIN
+		this.counterTimestamps.Clear();
+		// CROW - Combat Defense - END
 	}
 	
 	
@@ -2201,10 +2205,6 @@ statemachine abstract import class CR4Player extends CPlayer
 	{
 		uninterruptedHitsCount = 0;
 		LogUnitAtt("Uninterrupted attacks reset!!!!");
-
-		// CROW - Combat Defense - BEGIN
-		this.counterTimestamps.Clear();
-		// CROW - Combat Defense - END
 	}
 	
 	public function IncreaseUninterruptedHitsCount()
