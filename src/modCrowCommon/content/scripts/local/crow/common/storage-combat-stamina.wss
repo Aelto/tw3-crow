@@ -2,9 +2,23 @@
 class CROW_StorageCombatStamina {
   var regen_buff_counter: CROW_CombatStaminaRegenBuffCounter;
 
+  // caches the stamina regeneration the player has before CROW modifications.
+  // this is used to calculate the stamina regeneration from the buff stacks
+  // outside the regen.ws effect, to edit the experience bar to display the
+  // value.
+  var cached_stamina_regen_points: float;
+
   private function initRegenBuffCounterIfNeeded() {
     if (!this.regen_buff_counter) {
       this.regen_buff_counter = new CROW_CombatStaminaRegenBuffCounter in this;
+    }
+  }
+
+  public function tick(delta: float, regen_point: float) {
+    this.cached_stamina_regen_points = regen_point;
+
+    if (this.regen_buff_counter) {
+      this.regen_buff_counter.tick(delta);
     }
   }
 
@@ -21,9 +35,7 @@ class CROW_StorageCombatStamina {
     }
 
     if (!this.regen_buff_counter.is_running) {
-      if (!SU_hasCooldownWithTitle(this.regen_buff_counter.title)) {
-        SU_addCustomCooldown(this.regen_buff_counter);
-      }
+      this.GotoState('InCombat');
     }
   }
 
@@ -40,29 +52,41 @@ class CROW_StorageCombatStamina {
 
     this.regen_buff_counter.increaseActiveBuffsDuration(seconds);
   }
+
+  public function getRegenerationPerStackPerSecond(regen_point: float): float {
+    return ((regen_point * regen_point + 100) / 100)
+         * 0.5
+         + 0.2;
+  }
+  
+  public function getRegenerationPerSecond(regen_point: float): float {
+    return regen_point
+         // start by decreasing base passive regen by 85%
+         * 0.15
+         // then for each regen buff add a bonus passive regen
+         + this.getBuffCount() * this.getRegenerationPerStackPerSecond(regen_point);
+  }
 }
 
-class CROW_CombatStaminaRegenBuffCounter extends SU_Cooldown {
-  default title = "CROW_CombatStaminaRegenBuffCounter";
-  default format = 1;
-  default icon_name = "icons\inventory\other\stonemedallion.dds";
-
+class CROW_CombatStaminaRegenBuffCounter {
   var regen_buffs: array<CROW_CombatStaminaRegenBuff>;
   var is_running: bool;
+  var counter: int;
 
   function shouldEnd(): bool {
     return this.counter <= 0;
   }
 
-  function tick(delta: float, engine_time_as_seconds: float) {
+  function tick(delta: float) {
     var remaining_buff_count: int;
+    var now: float = SUH_now();
     var i: int;
 
     this.is_running = true;
 
     i = this.regen_buffs.Size() - 1;
     while (i >= 0) {
-      if (this.regen_buffs[i].hasExpired(engine_time_as_seconds)) {
+      if (this.regen_buffs[i].hasExpired(now)) {
         this.regen_buffs.Erase(i);
       }
       else {

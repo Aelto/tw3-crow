@@ -32,6 +32,24 @@ function CROW_getStorage(): CROW_Storage {
   return data;
 }
 
-exec function crowfix() {
-  SU_getStorage().setItem((new CROW_Storage in thePlayer).init());
+function __crowfix(): CROW_Storage {
+  var storage: CROW_Storage = (new CROW_Storage in thePlayer).init();
+
+  SU_getStorage().setItem(storage);
+
+  return storage;
 }
+exec function crowfix() {
+  __crowfix();
+}
+
+function CROWLOG(message: string) {
+  LogChannel('CROW', message);
+}
+
+#define function logregion(segment, log_function, code) {
+  #pragma find log_function("
+  #pragma replace log_function("[segment] - 
+
+code
+};
