@@ -9720,6 +9720,10 @@ statemachine abstract import class CR4Player extends CPlayer
 		
 		if( !slideTarget )
 			LogChannel( 'Targeting', "NO SLIDE TARGET" );
+
+		// CROW - Combat Defense - BEGIN
+		CROW_onCombatActionComplete();
+		// CROW - Combat Defense - END
 			
 		
 		actionResult = true;
