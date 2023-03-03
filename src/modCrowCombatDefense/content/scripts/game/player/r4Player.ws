@@ -1745,10 +1745,10 @@ statemachine abstract import class CR4Player extends CPlayer
 			FactsRemove("tut_fight_slomo_ON");
 		}
 		
-		if (!CROW_canParryAnything()) {
+		if (!CROW_canParryAnything()) { // CROW - Combat Defense
 			if ( !parryInfo.canBeParried || parryInfo.attacker.HasAbility( 'CannotBeCountered' ) )
 				return false;
-		}
+		} // CROW - Combat Defense
 		
 		fistFightCheck = FistFightCheck( parryInfo.target, parryInfo.attacker, fistFightCounter );
 		
