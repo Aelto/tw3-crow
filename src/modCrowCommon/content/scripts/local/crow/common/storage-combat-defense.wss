@@ -12,9 +12,11 @@ class CROW_StorageCombatDefense {
     // to extend it:
     this.resetOldestSpeedModifier();
 
-    this.animation_speed_modifiers.PushBack(
-      thePlayer.SetAnimationSpeedMultiplier(modifier, -1)
-    );
+    #ifdef ENABLE_DODGE_SPEEDUP {
+      this.animation_speed_modifiers.PushBack(
+        thePlayer.SetAnimationSpeedMultiplier(modifier, -1)
+      );
+    };
   }
 
   public function resetOldestSpeedModifier() {

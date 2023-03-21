@@ -1,3 +1,6 @@
+// IF DISABLED: remove the animation dodge speedup
+// add _NOT at the end to disable it
+#define const ENABLE_DODGE_SPEEDUP;
 
 function CROW_dodgeEntryPoint(player: CR4Player) {
   var storage: CROW_Storage = CROW_getStorage();
