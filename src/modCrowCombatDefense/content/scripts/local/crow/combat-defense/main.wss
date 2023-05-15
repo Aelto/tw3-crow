@@ -5,7 +5,7 @@
 function CROW_dodgeEntryPoint(player: CR4Player) {
   var storage: CROW_Storage = CROW_getStorage();
 
-  storage.combat_defense.newAnimationSpeedModifier(1.5);
+  storage.combat_defense.newAnimationSpeedModifier(1.35);
 }
 
 function CROW_parryEntryPoint(player: CR4Player) {
