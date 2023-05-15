@@ -16,6 +16,10 @@ As the player you are now able to parry everything, no exception even magical at
 Parrying an attack extends the duration of all CROW stamina regen buffs (you gained by attacking) by 1s but does not give any buff directly. Allowing you to gain even more stamina by countering the enemy attacks, but if you only rely on parries then you may lack the stamina regen you need for the crowd-control provided by signs.
 
 Dodges were made faster, so fast they are now much more useful as a positioning tool and less useful as a dodging tool. Their duration being reduced halves the amount of i-frames you get from them, but you are also free to continue attacking much sooner.
+
+# Known issues
+ - It is possible that after updating your game, or uninstalling CROW then installing it back after playing a bit without it, or updating CROW; the mod may stop working in some places. If that happens then run the `crowfix` command. This overwrites all of the previous CROW data from the savefile with a new one to ensure it's up to date.
+
 ## Dependencies
  - `mod_sharedutils_helpers`
  - `mod_sharedutils_storage`
