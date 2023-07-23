@@ -11,8 +11,13 @@ class CROW_Storage extends SU_StorageItem {
   }
 
   public function init(): CROW_Storage {
-    this.combat_stamina = new CROW_StorageCombatStamina in this;
-    this.combat_defense = new CROW_StorageCombatDefense in this;
+    if (!this.combat_stamina) {
+      this.combat_stamina = new CROW_StorageCombatStamina in this;
+    }
+
+    if (!this.combat_defense) {
+      this.combat_defense = new CROW_StorageCombatDefense in this;
+    }
 
     return this;
   }
@@ -25,11 +30,11 @@ function CROW_getStorage(): CROW_Storage {
 
   // create the data if it's the first time:
   if (!data) {
-    data = (new CROW_Storage in thePlayer).init();
+    data = new CROW_Storage in thePlayer;
     SU_getStorage().setItem(data);
   }
 
-  return data;
+  return data.init();
 }
 
 function __crowfix(): CROW_Storage {
