@@ -8798,7 +8798,7 @@ statemachine abstract import class CR4Player extends CPlayer
 
 
 		
-		if((CanParryAttack() || CROW_canParryAttack()) &&  FistFightCheck( parryInfo.target, parryInfo.attacker, fistFightParry ) ) // CROW - Combat Defense
+		if(CROW_canParryAttack(CanParryAttack()) &&  FistFightCheck( parryInfo.target, parryInfo.attacker, fistFightParry ) ) // CROW - Combat Defense
 		{	
 			// CROW - Combat Defense - BEGIN
 			CROW_parryEntryPoint(this);

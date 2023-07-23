@@ -21,8 +21,8 @@ function CROW_onCombatActionComplete() {
   storage.combat_defense.resetOldestSpeedModifier();
 }
 
-function CROW_canParryAttack(): bool {
-  return theInput.GetActionValue('LockAndGuard') != 0;
+function CROW_canParryAttack(vanilla_result: bool): bool {
+  return false;
 }
 
 /**

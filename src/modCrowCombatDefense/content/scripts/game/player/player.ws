@@ -1549,7 +1549,7 @@ statemachine import abstract class CPlayer extends CActor
 	
 	final function CanParryAttack() : bool
 	{		
-		return CROW_canParryAttack() || inputHandler.IsActionAllowed(EIAB_Parry) && ParryCounterCheck() && !IsCurrentlyDodging() && super.CanParryAttack(); // CROW - Combat Defense - BEGIN & END
+		return CROW_canParryAttack(inputHandler.IsActionAllowed(EIAB_Parry) && ParryCounterCheck() && !IsCurrentlyDodging() && super.CanParryAttack()); // CROW - Combat Defense - BEGIN & END
 	}
 	
 	
