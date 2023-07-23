@@ -26,12 +26,12 @@ class CROW_Storage extends SU_StorageItem {
 function CROW_getStorage(): CROW_Storage {
   var data: CROW_Storage;
 
-  data = SU_getStorage().getItem("CROW_Storage") as CROW_Storage;
+  data = SU_getBuffer().getItem("CROW_Storage") as CROW_Storage;
 
   // create the data if it's the first time:
   if (!data) {
     data = new CROW_Storage in thePlayer;
-    SU_getStorage().setItem(data);
+    SU_getBuffer().setItem(data);
   }
 
   return data.init();
@@ -40,7 +40,7 @@ function CROW_getStorage(): CROW_Storage {
 function __crowfix(): CROW_Storage {
   var storage: CROW_Storage = (new CROW_Storage in thePlayer).init();
 
-  SU_getStorage().setItem(storage);
+  SU_getBuffer().setItem(storage);
 
   return storage;
 }
