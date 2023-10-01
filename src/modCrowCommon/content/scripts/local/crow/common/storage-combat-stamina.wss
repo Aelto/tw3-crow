@@ -8,10 +8,20 @@ class CROW_StorageCombatStamina {
   // value.
   var cached_stamina_regen_points: float;
 
+  var cached_difficulty_scaling: int;
+  var cached_difficulty_scaling_inverted: int;
+
   private function initRegenBuffCounterIfNeeded() {
+    this.updateDifficultyScaling();
+
     if (!this.regen_buff_counter) {
       this.regen_buff_counter = new CROW_CombatStaminaRegenBuffCounter in this;
     }
+  }
+
+  private function updateDifficultyScaling() {
+    this.cached_difficulty_scaling = CROW_getDifficultyScaling();
+    this.cached_difficulty_scaling_inverted = CROW_getDifficultyScalingInverted();
   }
 
   public function tick(delta: float, regen_point: float) {
@@ -33,10 +43,6 @@ class CROW_StorageCombatStamina {
 
       buff_count -= 1;
     }
-
-    if (!this.regen_buff_counter.is_running) {
-      this.GotoState('InCombat');
-    }
   }
 
   public function getBuffCount(): int {
@@ -55,16 +61,21 @@ class CROW_StorageCombatStamina {
 
   public function getRegenerationPerStackPerSecond(regen_point: float): float {
     return ((regen_point * regen_point + 100) / 100)
-         * 0.5
-         + 0.2;
+         * (0.5 + this.cached_difficulty_scaling_inverted * 0.05)
+         + (0.2 + this.cached_difficulty_scaling_inverted * 0.05);
   }
   
   public function getRegenerationPerSecond(regen_point: float): float {
     return regen_point
-         // start by decreasing base passive regen by 85%
-         * 0.15
+         // start by decreasing base passive regen a bit
+         * this.getBasePassiveRegenerationDecrease()
          // then for each regen buff add a bonus passive regen
          + this.getBuffCount() * this.getRegenerationPerStackPerSecond(regen_point);
+  }
+
+  private function getBasePassiveRegenerationDecrease(): float {
+    return 0.15
+         + this.cached_difficulty_scaling_inverted * 0.05;
   }
 }
 

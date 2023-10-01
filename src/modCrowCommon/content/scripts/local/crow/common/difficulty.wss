@@ -1,0 +1,32 @@
+function CROW_getDifficultyScaling(): int {
+  var output: int;
+  output = 1;
+
+  switch (theGame.GetDifficultyMode()) {
+    case EDM_Easy:
+      output = 0;
+      break;
+    
+    case EDM_Medium:
+      output = 1;
+      break;
+    
+    case EDM_Hard:
+      output = 2;
+      break;
+    
+    case EDM_Hardcore:
+      output = 3;
+      break;
+  }
+
+  return output;
+}
+
+/**
+ * the same as the normal scaling function but where Hard is the lowest number (0)
+ * and easy is the highest (3)
+ */
+function CROW_getDifficultyScalingInverted(): int {
+  return 3 - CROW_getDifficultyScaling();
+}
