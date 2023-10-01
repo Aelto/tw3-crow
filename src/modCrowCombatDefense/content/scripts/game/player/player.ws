@@ -1571,6 +1571,10 @@ statemachine import abstract class CPlayer extends CActor
 				return true;
 			}
 		}
+
+		// CROW - Combat Defense - BEGIN
+		return CROW_canCounterAttack();
+		// CROW - Combat Defense - END
 		
 		return false;
 	}

@@ -17,6 +17,7 @@ class CROW_Storage extends SU_StorageItem {
 
     if (!this.combat_defense) {
       this.combat_defense = new CROW_StorageCombatDefense in this;
+      this.combat_defense.init();
     }
 
     return this;

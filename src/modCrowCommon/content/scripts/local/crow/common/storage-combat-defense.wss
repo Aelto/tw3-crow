@@ -1,7 +1,12 @@
 
-class CROW_StorageCombatDefense {
+statemachine class CROW_StorageCombatDefense {
 
   var animation_speed_modifiers: array<int>;
+
+  public function init() {
+    this.GotoState('Waiting');
+  }
+  
 
   public function newAnimationSpeedModifier(modifier: float) {
     // the game does not send a OnActionCompleteEvent if we cancel the action to
@@ -26,4 +31,52 @@ class CROW_StorageCombatDefense {
     }
   }
 
+  public function giveCounterIframes() {
+    this.PushState('Counter');
+  }
+
 }
+
+state Waiting in CROW_StorageCombatDefense {
+  event OnEnterState(previous_state_name: name) {
+    super.OnEnterState(previous_state_name);
+    LogChannel('CROW', "CROW_StorageCombatDefense - [Waiting]");
+  }  
+}
+
+
+state Counter in CROW_StorageCombatDefense {
+  event OnEnterState(previous_state_name: name) {
+    super.OnEnterState(previous_state_name);
+    LogChannel('CROW', "CROW_StorageCombatDefense - [Counter]");
+
+    this.Counter_start();
+  }
+  
+  entry function Counter_start() {
+    this.Counter_handleInvulnerabilityFrame();
+
+    parent.PopState();
+  }
+  
+  latent function Counter_handleInvulnerabilityFrame() {
+    var now: float;
+    var start: float;
+    var duration_seconds: float;
+
+    now = theGame.GetEngineTimeAsSeconds();
+    start = now;
+    duration_seconds = 0.5 + CROW_getDifficultyScalingInverted() * 0.05
+
+    while (now - start <= duration_seconds) {
+      now = theGame.GetEngineTimeAsSeconds();
+      thePlayer.SetIsCurrentlyDodging(true, true);
+
+      SleepOneFrame();
+    }
+    
+    thePlayer.SetIsCurrentlyDodging(false, false);
+  }  
+}
+
+

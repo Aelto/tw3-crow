@@ -1763,6 +1763,10 @@ statemachine abstract import class CR4Player extends CPlayer
 			{
 				if ( IsInCombatActionFriendly() )
 					RaiseEvent('CombatActionFriendlyEnd');
+
+				// CROW - Combat Defense - BEGIN
+				CROW_counterEntryPoint(this);
+				// CROW - Combat Defense - END
 				
 				SetBehaviorVariable( 'parryType', ChooseParryTypeIndex( parryInfo ) );
 				SetBehaviorVariable( 'counter', (float)validCounter);			
