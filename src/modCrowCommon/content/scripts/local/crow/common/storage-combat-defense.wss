@@ -66,7 +66,7 @@ state Counter in CROW_StorageCombatDefense {
 
     now = theGame.GetEngineTimeAsSeconds();
     start = now;
-    duration_seconds = 0.5 + CROW_getDifficultyScalingInverted() * 0.05
+    duration_seconds = 0.5 + CROW_getDifficultyScalingInverted() * 0.05;
 
     while (now - start <= duration_seconds) {
       now = theGame.GetEngineTimeAsSeconds();
