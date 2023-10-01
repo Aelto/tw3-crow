@@ -41,19 +41,10 @@ function CROW_damageModifier(
 
     if (playerAttacker.IsHeavyAttack(attackAction.GetAttackName())) {
       CROW_getStorage().combat_stamina.addRegenBuff(3);
-      
-      var weapon_entity: CItemEntity;
-      weapon_entity = thePlayer.inv.GetItemEntityUnsafe(thePlayer.inv.GetItemFromSlot('r_weapon'));
-      weapon_entity.PlayEffectSingle('runeword1_fire_trail');
-      weapon_entity.PlayEffectSingle('aerondight_special_trail');
     }
 
     else if (playerAttacker.IsLightAttack(attackAction.GetAttackName())) {
       CROW_getStorage().combat_stamina.addRegenBuff(1);
-      
-      var weapon_entity: CItemEntity;
-      weapon_entity = thePlayer.inv.GetItemEntityUnsafe(thePlayer.inv.GetItemFromSlot('r_weapon'));
-      weapon_entity.PlayEffectSingle('runeword1_fire_trail');
     }
 
   }
