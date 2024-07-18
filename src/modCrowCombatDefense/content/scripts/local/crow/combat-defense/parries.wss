@@ -2,3 +2,7 @@
 function CROW_canParryAnything(): bool {
   return true;
 }
+
+function CROW_canParryAttack(vanilla_result: bool): bool {
+  return false;
+}
