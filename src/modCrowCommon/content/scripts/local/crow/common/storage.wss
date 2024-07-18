@@ -1,9 +1,8 @@
 
-class CROW_Storage extends SU_StorageItem {
-  default tag = "CROW_Storage";
-
+class CROW_Storage {
   var combat_stamina: CROW_StorageCombatStamina;
   var combat_defense: CROW_StorageCombatDefense;
+  var combat_health: CROW_StorageCombatHealth;
 
   public function canBeReset(): bool {
     return this.combat_stamina.getBuffCount() <= 0
@@ -25,28 +24,7 @@ class CROW_Storage extends SU_StorageItem {
 }
 
 function CROW_getStorage(): CROW_Storage {
-  var data: CROW_Storage;
-
-  data = SU_getBuffer().getItem("CROW_Storage") as CROW_Storage;
-
-  // create the data if it's the first time:
-  if (!data) {
-    data = new CROW_Storage in thePlayer;
-    SU_getBuffer().setItem(data);
-  }
-
-  return data.init();
-}
-
-function __crowfix(): CROW_Storage {
-  var storage: CROW_Storage = (new CROW_Storage in thePlayer).init();
-
-  SU_getBuffer().setItem(storage);
-
-  return storage;
-}
-exec function crowfix() {
-  __crowfix();
+  return thePlayer.CROW_getStorage();
 }
 
 function CROWLOG(message: string) {

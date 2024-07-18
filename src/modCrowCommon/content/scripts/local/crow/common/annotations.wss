@@ -1,0 +1,11 @@
+@addField(CR4Player)
+var crow_storage: CROW_Storage;
+
+@addMethod(CR4Player)
+function CROW_getStorage(): CROW_Storage {
+  if (!this.crow_storage) {
+    this.crow_storage = new CROW_Storage in this;
+  }
+
+  return this.crow_storage.init();
+}
