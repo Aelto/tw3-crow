@@ -12,10 +12,14 @@ XCOPY "%modpath%\src\%modname%\" "%modpath%\release\mods\%modname%\" /e /s /y
 rmdir "%modpath%\release\mods\%modname%\content\scripts\local\" /s /q
 XCOPY "%modpath%\dist\%modname%\" "%modpath%\release\mods\%modname%\" /e /s /y
 
+tw3-cahirp build --game "%gamePath%" --recipes "%modpath%/release/mods/%modname%/cahirp" --out "%modpath%/release/mods/%modname%/content/scripts" --without-mods
+
 set modname=modCrowCombatDefense
 XCOPY "%modpath%\src\%modname%\" "%modpath%\release\mods\%modname%\" /e /s /y
 rmdir "%modpath%\release\mods\%modname%\content\scripts\local\" /s /q
 XCOPY "%modpath%\dist\%modname%\" "%modpath%\release\mods\%modname%\" /e /s /y
+
+tw3-cahirp build --game "%gamePath%" --recipes "%modpath%/release/mods/%modname%/cahirp" --out "%modpath%/release/mods/%modname%/content/scripts" --without-mods
 
 set modname=modCrowCommon
 XCOPY "%modpath%\src\%modname%\" "%modpath%\release\mods\%modname%\" /e /s /y
@@ -28,8 +32,6 @@ XCOPY "%modpath%\strings" "%modpath%\release\mods\%modName%\content\" /e /s /y
 
 :: copy the sharedutils dependencies
 set modname=mod_sharedutils_helpers
-XCOPY "%modpath%\tw3-shared-utils\%modname%\" "%modpath%\release\mods\%modname%\" /e /s /y
-set modname=mod_sharedutils_storage
 XCOPY "%modpath%\tw3-shared-utils\%modname%\" "%modpath%\release\mods\%modname%\" /e /s /y
 
 :: don't need a menu at the moment
