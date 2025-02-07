@@ -1,0 +1,6 @@
+/// amplifies the melee algorithm based on the stamina level, higher stamina
+/// means more tickets.
+@wrapMethod(CTicketAlgorithmMelee)
+function CalculateTicketImportance(): float {
+  return wrappedMethod() * (this.GetNPC().GetStatPercents(BCS_Stamina) + 1);
+}

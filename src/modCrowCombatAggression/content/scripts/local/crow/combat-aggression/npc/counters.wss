@@ -1,0 +1,28 @@
+// this variable holds the vanilla value, the wraps below will then tweak the
+// value dynamically based the original vanailla value.
+@addField(CBTTaskPerformParry)
+var crow_counterChance: float;
+
+@addField(CBTTaskPerformParry)
+var crow_hitsToCounter: float;
+
+@wrapMethod(CBTTaskPerformParry)
+function GetStats() {
+  wrappedMethod();
+
+  this.crow_counterChance = this.counterChance;
+  this.crow_hitsToCounter = this.hitsToCounter;
+}
+
+@wrapMethod(CBTTaskPerformParry)
+function CheckCounter(): bool {
+  var stamina_percent: float = this.GetActor().GetStaminaPercents();
+  var stamina_percent_inv: float = 1 - stamina_percent;
+
+  // the higher the stamina, the higher the chances of countering
+  this.counterChance = FloorF(this.crow_counterChance * (1 + RandRangeF(stamina_percent)));
+  // the higher the stamina, the lower the defend counter
+  this.hitsToCounter = FloorF(this.crow_hitsToCounter * (RandRangeF(1, stamina_percent_inv)));
+
+  return wrappedMethod();
+}

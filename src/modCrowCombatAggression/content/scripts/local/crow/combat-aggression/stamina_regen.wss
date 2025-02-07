@@ -1,0 +1,10 @@
+@wrapMethod(W3Effect_AutoStaminaRegen)
+function SetEffectValue() {
+  wrappedMethod();
+
+  if (!isOnPlayer) {
+    this.effectValue.valueAdditive *= 0.05;
+    this.effectValue.valueMultiplicative *= 0.05;
+    this.effectValue.valueBase *= 0.05;
+  }
+}

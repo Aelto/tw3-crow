@@ -1,0 +1,7 @@
+@wrapMethod(CTicketAttackAlgorithm)
+function CalculateTicketImportance(): float {
+  return MinF(
+    10000,
+    wrappedMethod() * (this.GetNPC().GetStatPercents(BCS_Stamina) + 1)
+  );
+}

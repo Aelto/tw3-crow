@@ -21,6 +21,11 @@ XCOPY "%modpath%\dist\%modname%\" "%modpath%\release\mods\%modname%\" /e /s /y
 
 tw3-cahirp build --game "%gamePath%" --recipes "%modpath%/release/mods/%modname%/cahirp" --out "%modpath%/release/mods/%modname%/content/scripts" --without-mods
 
+set modname=modCrowCombatAggression
+XCOPY "%modpath%\src\%modname%\" "%modpath%\release\mods\%modname%\" /e /s /y
+rmdir "%modpath%\release\mods\%modname%\content\scripts\local\" /s /q
+XCOPY "%modpath%\dist\%modname%\" "%modpath%\release\mods\%modname%\" /e /s /y
+
 set modname=modCrowCommon
 XCOPY "%modpath%\src\%modname%\" "%modpath%\release\mods\%modname%\" /e /s /y
 rmdir "%modpath%\release\mods\%modname%\content\scripts\local\" /s /q

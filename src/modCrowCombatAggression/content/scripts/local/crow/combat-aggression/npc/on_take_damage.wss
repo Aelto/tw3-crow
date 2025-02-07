@@ -1,0 +1,29 @@
+@wrapMethod(CActor)
+function OnTakeDamage(action: W3DamageAction) {
+  var health_perc_before: float = this.GetHealthPercents();
+  var result: bool = wrappedMethod(action);
+  var health_perc_after: float = this.GetHealthPercents();
+
+  if (!action.DealtDamage()) {
+    return result;
+  }
+
+  var player_attacker: CPlayer = action.attacker as CPlayer;
+  if (player_attacker) {
+    if (this.IsAlive() && health_perc_after > 0) {
+      var difference_perc: float = health_perc_before - health_perc_after;
+          
+
+      this.GainStat(
+        BCS_Stamina,
+        this.GetStatMax(BCS_Stamina) * difference_perc
+          // the lower the health gets, the higher the stamina gain.
+          // the ^2 means this bonus is negligible as it's near 100%, but grows
+          // exponentially (without reaching 1) as it approaches 0% health.
+          * (1 + PowF(1 - health_perc_before, 2))
+      );
+    }
+  }
+
+  return result;
+}
