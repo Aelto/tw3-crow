@@ -17,6 +17,13 @@ Parrying an attack extends the duration of all CROW stamina regen buffs (you gai
 
 Dodges were made faster, so fast they are now much more useful as a positioning tool and less useful as a dodging tool. Their duration being reduced halves the amount of i-frames you get from them, but you are also free to continue attacking much sooner.
 
+# Combat Aggression
+The aggression level of your opponents is now tied to their stamina level. As their perform actions and consume their stamina, their aggressiveness will lower, offering you opportunities to engage. However as their health decreases they receive a boost in stamina, allowing them to reciprocate proportionally to the hits they've performed.
+
+Additionally the rules for their ability to counter attack were tweaked to make them less predictible. Where it used to be every 3 consecutive hits, it is now tied to the stamina level of the enemy with a slight random variation on top of it. An exhausted creature is less inclined to defend itself aggressively through a counter-attack and instead will opt for dodges in those situations, however as you hit the enemy and as its stamina level increases the chances of being countered increases.
+
+The combination of the other modules where an aggressive playstyle is recommended, and where you're given the tools to face such situations such as permissive counters and non punishing dodges; the fights will often turn into a dance between you and the enemy until one decides to dodge out or dies...
+
 # Known issues
  - It is possible that after updating your game, or uninstalling CROW then installing it back after playing a bit without it, or updating CROW; the mod may stop working in some places. If that happens then run the `crowfix` command. This overwrites all of the previous CROW data from the savefile with a new one to ensure it's up to date.
 
