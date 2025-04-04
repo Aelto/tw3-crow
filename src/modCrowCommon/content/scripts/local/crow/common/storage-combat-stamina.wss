@@ -61,8 +61,8 @@ class CROW_StorageCombatStamina {
 
   public function getRegenerationPerStackPerSecond(regen_point: float): float {
     return ((regen_point * regen_point + 100) / 100)
-         * (0.5 + this.cached_difficulty_scaling_inverted * 0.05)
-         + (0.2 + this.cached_difficulty_scaling_inverted * 0.05);
+         * (0.4 + this.cached_difficulty_scaling_inverted * 0.05)
+         + (0.15 + this.cached_difficulty_scaling_inverted * 0.05);
   }
   
   public function getRegenerationPerSecond(regen_point: float): float {
