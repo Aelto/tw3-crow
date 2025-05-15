@@ -1,0 +1,6 @@
+
+statemachine class CROW_StorageCombatHealth {
+  public function init() {}
+}
+
+

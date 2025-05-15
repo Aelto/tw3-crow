@@ -2,11 +2,16 @@
 class CROW_StorageCombatStamina {
   var regen_buff_counter: CROW_CombatStaminaRegenBuffCounter;
 
-  // caches the stamina regeneration the player has before CROW modifications.
+  // caches the stamina regeneration the player has after CROW modifications.
   // this is used to calculate the stamina regeneration from the buff stacks
   // outside the regen.ws effect, to edit the experience bar to display the
   // value.
   var cached_stamina_regen_points: float;
+
+  // kinda hacky but with the switch to annotations it's difficult to get access
+  // to a delta when calculating the regen values. And since those values have
+  // flat additions in them it has to be multiplied by a delta.
+  var cached_tick_delta: float;
 
   var cached_difficulty_scaling: int;
   var cached_difficulty_scaling_inverted: int;
@@ -24,11 +29,10 @@ class CROW_StorageCombatStamina {
     this.cached_difficulty_scaling_inverted = CROW_getDifficultyScalingInverted();
   }
 
-  public function tick(delta: float, regen_point: float) {
-    this.cached_stamina_regen_points = regen_point;
-
+  public function tick(delta: float) {
     if (this.regen_buff_counter) {
       this.regen_buff_counter.tick(delta);
+      this.cached_tick_delta = delta;
     }
   }
 
@@ -61,8 +65,8 @@ class CROW_StorageCombatStamina {
 
   public function getRegenerationPerStackPerSecond(regen_point: float): float {
     return ((regen_point * regen_point + 100) / 100)
-         * (0.4 + this.cached_difficulty_scaling_inverted * 0.05)
-         + (0.15 + this.cached_difficulty_scaling_inverted * 0.05);
+      * (0.4 + this.cached_difficulty_scaling_inverted * 0.05)
+      + (0.15 + this.cached_difficulty_scaling_inverted * 0.05);
   }
   
   public function getRegenerationPerSecond(regen_point: float): float {
@@ -133,7 +137,7 @@ class CROW_CombatStaminaRegenBuff {
   }
 
   public function hasExpired(now_timestamp: float): bool {
-    // expires after 10 seconds
-    return now_timestamp - this.creation_date > 10;
+    // expires after 15 seconds
+    return now_timestamp - this.creation_date > 15;
   }
 }

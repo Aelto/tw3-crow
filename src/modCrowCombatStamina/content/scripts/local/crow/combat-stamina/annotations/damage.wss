@@ -1,0 +1,5 @@
+@wrapMethod(W3DamageManagerProcessor)
+function ProcessActionDamage_DealDamage() {
+  CROW_damageModifier(action, this.playerAttacker, this.attackAction);
+  wrappedMethod();
+}

@@ -1,0 +1,15 @@
+@wrapMethod(W3RegenEffect)
+function OnUpdate(dt : float) {
+  CROW_staminaRegenPointTick(dt);
+  wrappedMethod(dt);
+}
+
+// the OnUpdate above then calls CacheStatUpdate with a `value * dt`
+@wrapMethod(W3EffectManager)
+function CacheStatUpdate(stat: EBaseCharacterStats, value: float) {
+  if (stat == BCS_Stamina && this.ownerIsWitcher) {
+    value = CROW_staminaRegenPointSetter(value);
+  }
+
+  wrappedMethod(stat, value);
+}

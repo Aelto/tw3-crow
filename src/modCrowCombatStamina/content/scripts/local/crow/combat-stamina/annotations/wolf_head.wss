@@ -1,0 +1,6 @@
+@wrapMethod(CR4HudModuleWolfHead)
+function UpdateExperience() {
+  if (!CROW_onWolfHeadModuleExperienceTick(this.m_fxSetExperience)) {
+    wrappedMethod();
+  }
+}

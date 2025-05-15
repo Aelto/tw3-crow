@@ -1,26 +1,26 @@
-function CROW_staminaRegenPointSetter(effect: W3RegenEffect, regen_point: float, delta: float): float {
+function CROW_staminaRegenPointSetter(regen_point: float): float {
   var is_in_combat: bool = thePlayer.IsInCombat();
-
-  if (effect.CROW_was_in_combat != is_in_combat) {
-    var storage: CROW_Storage = CROW_getStorage();
-
-    CROWLOG("CROW_staminaRegenPointSetter(), updating cache & combat state, is_in_combat = " + is_in_combat);
-
-    effect.CROW_cached_stamina_storage = storage.combat_stamina;
-    effect.CROW_was_in_combat = is_in_combat;
-  }
 
   if (!is_in_combat) {
     return regen_point;
   }
 
-  effect
-    .CROW_cached_stamina_storage
-    .tick(delta, regen_point);
+  var module: CROW_StorageCombatStamina = thePlayer.crow_storage.combat_stamina;
+  var amount: float = module.getRegenerationPerSecond(regen_point / module.cached_tick_delta) * module.cached_tick_delta;
+  module.cached_stamina_regen_points = amount;
 
-  return effect
-    .CROW_cached_stamina_storage
-    .getRegenerationPerSecond(regen_point);
+  return amount;
+}
+
+function CROW_staminaRegenPointTick(delta: float) {
+  var is_in_combat: bool = thePlayer.IsInCombat();
+
+  if (is_in_combat) {
+    thePlayer
+      .crow_storage
+      .combat_stamina
+      .tick(delta);
+  }
 }
 
 function CROW_damageModifier(
@@ -50,24 +50,16 @@ function CROW_damageModifier(
   }
 }
 
-function CROW_onWolfHeadModuleExperienceTick(module: CR4HudModuleWolfHead, m_fxSetExperience: CScriptedFlashFunction): bool {
+function CROW_onWolfHeadModuleExperienceTick(m_fxSetExperience: CScriptedFlashFunction): bool {
   var is_in_combat: bool = thePlayer.IsInCombat();
 
-  if (module.CROW_was_in_combat != is_in_combat) {
-    var storage: CROW_Storage = CROW_getStorage();
-
-    CROWLOG("CROW_onWolfHeadModuleExperienceTick(), updating cache & combat state, is_in_combat = " + is_in_combat);
-
-    module.CROW_cached_stamina_storage = storage.combat_stamina;
-    module.CROW_was_in_combat = is_in_combat;
-  }
-
   if (is_in_combat) {
-    var flat_stamina_per_second: float = module
-      .CROW_cached_stamina_storage
-      .getRegenerationPerSecond(module.CROW_cached_stamina_storage.cached_stamina_regen_points);
+    var flat_stamina_per_second: float = thePlayer
+      .crow_storage
+      .combat_stamina
+      .cached_stamina_regen_points;
 
-    m_fxSetExperience.InvokeSelfOneArg(FlashArgNumber(flat_stamina_per_second / 100));
+    m_fxSetExperience.InvokeSelfOneArg(FlashArgNumber(flat_stamina_per_second));
   }
 
   return is_in_combat;
