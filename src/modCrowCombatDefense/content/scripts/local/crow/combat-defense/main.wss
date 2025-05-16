@@ -11,16 +11,20 @@ function CROW_dodgeEntryPoint(player: CR4Player) {
 function CROW_counterEntryPoint(player: CR4Player) {
   var storage: CROW_Storage = CROW_getStorage();
   
-  // Counters increase the duration of all active buffs by 1 second
-  storage.combat_stamina.increaseActiveBuffsDuration(1);
+  // Counters increase the duration of all active buffs by x*2 seconds
+  // the duration is doubled as initiating a parry reduces by x, the x2
+  // compensates for that.
+  storage.combat_stamina.increaseActiveBuffsDuration(6 * 2);
   storage.combat_defense.giveCounterIframes();
 }
 
 function CROW_parryEntryPoint(player: CR4Player) {
   var storage: CROW_Storage = CROW_getStorage();
   
-  // Parries increase the duration of all active buffs by 1 second
-  storage.combat_stamina.increaseActiveBuffsDuration(1);
+  // Counters increase the duration of all active buffs by x*2 seconds
+  // the duration is doubled as initiating a parry reduces by x, the x2
+  // compensates for that.
+  storage.combat_stamina.increaseActiveBuffsDuration(6 * 2);
 }
 
 function CROW_onCombatActionComplete() {
@@ -55,4 +59,18 @@ function CROW_counterSpammingCheck(attacker: CActor, guard_timestamps: array<Eng
   }
 
   return false;
+}
+
+@wrapMethod(CR4Player)
+function OnCombatActionStart() {
+  var result: bool = wrappedMethod();
+
+  if (result) {
+    var storage: CROW_Storage = CROW_getStorage();
+    
+    // Parries increase the duration of all active buffs by 1 second
+    storage.combat_stamina.increaseActiveBuffsDuration(-6);
+  }
+
+  return result;
 }

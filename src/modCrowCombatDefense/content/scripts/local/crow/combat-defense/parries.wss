@@ -6,3 +6,11 @@ function CROW_canParryAnything(): bool {
 function CROW_canParryAttack(vanilla_result: bool): bool {
   return false;
 }
+
+function CROW_canParryArrow(out parry_info: SParryInfo): bool {
+  var is_arrow: bool = parry_info.attackSwingType == AST_Jab
+    && parry_info.attackSwingDir == ASD_NotSet
+    && parry_info.attackActionName == 'attack_light';
+
+  return is_arrow;
+}

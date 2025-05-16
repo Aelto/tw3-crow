@@ -1,0 +1,55 @@
+@wrapMethod(W3DamageAction)
+function CanBeParried(): bool {
+  return wrappedMethod() || this.victim == thePlayer && CROW_canParryAnything();
+}
+
+// controls parrying on the input detection level
+@wrapMethod(CPlayer)
+function CanParryAttack(): bool {
+  return CROW_canParryAttack(wrappedMethod());
+}
+
+@wrapMethod(CR4Player)
+function PerformParryCheck(parryInfo: SParryInfo): bool {
+  if (wrappedMethod(parryInfo)) {
+    CROW_parryEntryPoint(this);
+    return true;
+  }
+  
+  return false;
+}
+
+@wrapMethod(CActor)
+function ProcessParryInfo( 
+  attacker: CActor, 
+  target: CActor, 
+  attackSwingType: EAttackSwingType, 
+  attackSwingDir: EAttackSwingDirection, 
+  attActionName: name, 
+  attackerWeaponId: SItemUniqueId, 
+  canBeParried: bool
+): SParryInfo {
+  var result: SParryInfo = wrappedMethod(
+    attacker,
+    target,
+    attackSwingType,
+    attackSwingDir,
+    attActionName,
+    attackerWeaponId,
+    canBeParried
+  );
+
+  // do it after the wrappedMethod as `canBeParried` has extra checks and doesn't
+  // only rely on the provided parameter above
+  if (target == thePlayer && attacker != thePlayer) {
+    result.canBeParried = true;
+  }
+
+  return result;
+}
+
+@wrapMethod(CGameplayEntity)
+function HasAbility(abilityName: name, optional includeInventoryAbl: bool): bool			{
+  return abilityName != 'CannotBeCountered'
+      && wrappedMethod(abilityName, includeInventoryAbl);
+}

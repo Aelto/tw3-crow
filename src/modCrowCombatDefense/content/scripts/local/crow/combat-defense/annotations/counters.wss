@@ -1,0 +1,57 @@
+@wrapMethod(CPlayer)
+function ParryCounterCheck(): bool {
+  return wrappedMethod() || CROW_canCounterAttack();
+}
+
+@wrapMethod(CR4Player)
+function CheckCounterSpamming(attacker: CActor): bool {
+  if (false) {
+    wrappedMethod(attacker);
+  }
+
+  if (attacker) {
+    return CROW_counterSpammingCheck(attacker, this.counterTimestamps);
+  }
+
+  return false;
+}
+
+@wrapMethod(CR4Player)
+function IncreaseUninterruptedHitsCount() {
+  wrappedMethod();
+
+  this.counterTimestamps.Clear();
+}
+
+@wrapMethod(CR4Player)
+function ReceivedCombatDamage() {
+  wrappedMethod();
+
+  this.counterTimestamps.Clear();
+}
+
+@wrapMethod(CR4Player)
+function ProcessCombatActionBuffer(): bool {
+  if (wrappedMethod()) {
+    CROW_onCombatActionComplete();
+    return true;
+  }
+
+  return false;
+}
+
+@wrapMethod(CR4Player)
+function OnCombatActionEndComplete() {
+  CROW_onCombatActionComplete();
+  return wrappedMethod();
+}
+
+@wrapMethod(CR4Player)
+function PerformParryCheck(parryInfo: SParryInfo): bool {
+  if (wrappedMethod(parryInfo)) {
+    CROW_counterEntryPoint(this);
+    return true;
+  }
+  
+  return false;
+}

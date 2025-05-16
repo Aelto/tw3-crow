@@ -1,0 +1,17 @@
+@wrapMethod(CR4Player)
+function ProcessCombatActionBuffer(): bool {
+  var action: EBufferActionType = this.BufferCombatAction;
+  var stage: EButtonStage = this.BufferButtonStage;
+
+  if (wrappedMethod()) {
+    if (stage == BS_Released) {
+      if (action == EBAT_Dodge || action == EBAT_Roll) {
+        CROW_dodgeEntryPoint(this);
+      }
+    }
+
+    return true;
+  }
+
+  return false;
+}
