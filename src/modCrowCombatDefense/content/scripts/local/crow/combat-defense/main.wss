@@ -34,7 +34,7 @@ function CROW_onCombatActionComplete() {
 }
 
 function CROW_canCounterAttack(): bool {
-  return theInput.GetActionValue('LockAndGuard')!=0;
+  return theInput.GetActionValue('LockAndGuard') != 0;
 }
 
 /**

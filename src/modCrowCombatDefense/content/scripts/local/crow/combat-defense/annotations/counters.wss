@@ -30,6 +30,11 @@ function ReceivedCombatDamage() {
   this.counterTimestamps.Clear();
 }
 
+@wrapMethod(CPlayer)
+function IsActionAllowed(action: EInputActionBlock): bool {
+  return action == EIAB_Parry || wrappedMethod(action);
+}
+
 @wrapMethod(CR4Player)
 function ProcessCombatActionBuffer(): bool {
   if (wrappedMethod()) {

@@ -9,6 +9,11 @@ function CanParryAttack(): bool {
   return CROW_canParryAttack(wrappedMethod());
 }
 
+@wrapMethod(W3Action_Attack)
+function IsParried(): bool {
+  return wrappedMethod() && false;
+}
+
 @wrapMethod(CR4Player)
 function PerformParryCheck(parryInfo: SParryInfo): bool {
   if (wrappedMethod(parryInfo)) {
@@ -49,7 +54,7 @@ function ProcessParryInfo(
 }
 
 @wrapMethod(CGameplayEntity)
-function HasAbility(abilityName: name, optional includeInventoryAbl: bool): bool			{
+function HasAbility(abilityName: name, optional includeInventoryAbl: bool): bool {
   return abilityName != 'CannotBeCountered'
       && wrappedMethod(abilityName, includeInventoryAbl);
 }
