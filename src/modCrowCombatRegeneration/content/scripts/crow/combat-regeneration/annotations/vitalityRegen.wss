@@ -1,0 +1,40 @@
+// @addMethod(W3RegenEffect)
+// function CROW_CR_isStatVitality(): bool {
+//   return this.stat == BCS_Vitality;
+// }
+
+// @wrapMethod(CBaseGameplayEffect)
+// function CalculateDuration(optional setInitialDuration: bool) {
+//   wrappedMethod(setInitialDuration);
+
+//   if (this.isOnPlayer) {
+//     if (
+//       this.effectType == EET_WellFed
+//       || this.effectType == EET_WellHydrated
+//       || this.effectType == EET_Swallow
+//     ) {
+//       this.duration *= 20;
+//     }
+//     else {
+//       var regen: W3RegenEffect = this as W3RegenEffect;
+
+//       if (regen) {
+//         if (regen.CROW_CR_isStatVitality()) {
+//           this.duration *= 20;
+//         }
+//       }
+//     }
+    
+//   }
+// }
+
+
+/// Lowers all health gain on the player by 95%
+@wrapMethod(W3PlayerAbilityManager)
+function GainStat( stat: EBaseCharacterStats, amount: float ) {
+  if (stat == BCS_Vitality && amount > 0) {
+    amount *= 0.05;
+  }
+
+  wrappedMethod(stat, amount);
+}

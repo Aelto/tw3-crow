@@ -1,0 +1,72 @@
+@addField(CBaseGameplayEffect)
+var crow_is_edible: bool;
+
+@wrapMethod(CBaseGameplayEffect)
+function CalculateDuration(optional setInitialDuration : bool) {
+  wrappedMethod(setInitialDuration);
+
+  if (setInitialDuration) {
+    if (this.sourceName == "edible" || this.crow_is_edible) {
+      this.crow_is_edible = true;
+      // add a prefix to the source name to ensure stacking, and mostly to
+      // inform that CROW has already edited it.
+      this.sourceName = "edible-" + FloorF(RandRangeF(10000));
+      // increase duration of edibles to compensate for lack of regen
+      this.duration *= 10;
+    }
+  }
+}
+
+@wrapMethod(CBaseGameplayEffect)
+function CacheSettings() {
+  wrappedMethod();
+  if (this.sourceName == "edible" || this.crow_is_edible) {
+    this.deny.Clear();
+    this.override.Clear();
+  }
+}
+
+/// If a similar effect is added, and even if they can stack the game will first
+/// try to see if it can cumulate with an existing effect. That is, if the new
+/// effect is stronger than the current one then it replaces the old one,
+/// otherwise it will be denied because the new effect is weaker.
+///
+/// This wrapper prevents the deny of edibles and allow them to create a new
+/// effect no matter the strength or duration.
+@wrapMethod(CBaseGameplayEffect)
+function GetSelfInteraction(other: CBaseGameplayEffect): EEffectInteract {
+  var result: EEffectInteract = wrappedMethod(other);
+
+  if (this.crow_is_edible) {
+    return EI_Pass;
+  }
+
+  return result;
+}
+
+@wrapMethod(W3GameEffectManager)
+function CheckInteractionWith(
+  effectManager: W3EffectManager,
+  effect: CBaseGameplayEffect,
+  interactionEffects: array<CBaseGameplayEffect>,
+  out overridenEffectsIdxs: array<int>,
+  out cumulateIdx: int
+) : bool {
+  var result: bool = wrappedMethod(
+    effectManager,
+    effect,
+    interactionEffects,
+    overridenEffectsIdxs,
+    cumulateIdx
+  );
+
+  // this is the piece of code that allows stacking of the items:
+  if (effect.crow_is_edible) {
+    overridenEffectsIdxs.Clear();
+    cumulateIdx = -1;
+
+    return true;
+  }
+
+  return result;
+}

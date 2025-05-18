@@ -26,6 +26,11 @@ XCOPY "%modpath%\src\%modname%\" "%modpath%\release\mods\%modname%\" /e /s /y
 rmdir "%modpath%\release\mods\%modname%\content\scripts\local\" /s /q
 XCOPY "%modpath%\dist\%modname%\" "%modpath%\release\mods\%modname%\" /e /s /y
 
+set modname=modCrowCombatRegeneration
+XCOPY "%modpath%\src\%modname%\" "%modpath%\release\mods\%modname%\" /e /s /y
+rmdir "%modpath%\release\mods\%modname%\content\scripts\local\" /s /q
+XCOPY "%modpath%\dist\%modname%\" "%modpath%\release\mods\%modname%\" /e /s /y
+
 set modname=modCrowCommon
 XCOPY "%modpath%\src\%modname%\" "%modpath%\release\mods\%modname%\" /e /s /y
 rmdir "%modpath%\release\mods\%modname%\content\scripts\local\" /s /q

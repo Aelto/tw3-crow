@@ -1,0 +1,42 @@
+@wrapMethod(CR4Player)
+function ProcessCombatActionBuffer() : bool {
+  if (wrappedMethod()) {
+
+    if (this.IsCiri()) {
+      return true;
+    }
+
+    if (
+      this.BufferCombatAction != EBAT_LightAttack
+      && this.BufferCombatAction != EBAT_HeavyAttack
+    ) {
+      return true;
+    }
+
+    thePlayer.CROW_CR_resetAnimationSpeedMultipliers();
+    thePlayer.CROW_CR_animation_speed_modifier_ids.PushBack(
+      thePlayer.SetAnimationSpeedMultiplier(0.65, -1)
+    );
+
+    return true;
+  }
+
+  return false;
+}
+
+@wrapMethod(CR4Player)
+function OnCombatActionEndComplete() {
+  thePlayer.CROW_CR_resetAnimationSpeedMultipliers();
+  return wrappedMethod();
+}
+
+@addField(CR4Player)
+var CROW_CR_animation_speed_modifier_ids: array<int>;
+
+@addMethod(CR4Player)
+function CROW_CR_resetAnimationSpeedMultipliers() {
+  if (this.CROW_CR_animation_speed_modifier_ids.Size() > 0) {
+    thePlayer.ResetAnimationSpeedMultiplier( this.CROW_CR_animation_speed_modifier_ids[0] );
+    this.CROW_CR_animation_speed_modifier_ids.EraseFast(0);
+  }
+}

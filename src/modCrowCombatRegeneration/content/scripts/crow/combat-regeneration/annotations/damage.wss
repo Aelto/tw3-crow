@@ -1,0 +1,22 @@
+@wrapMethod(W3PlayerWitcher)
+function ReduceDamage(out damageData : W3DamageAction) {
+  wrappedMethod(damageData);
+
+  damageData.processedDmg.vitalityDamage *= 0.25;
+  damageData.processedDmg.essenceDamage *= 0.25;
+}
+
+
+@wrapMethod(W3DamageOverTimeEffect)
+function CalculateDamage(arrayIndex: int, maxVit: float, maxEss: float, dt: float): float {
+  var amount: float = wrappedMethod(arrayIndex, maxVit, maxEss, dt);
+
+  // DOT is reduced lower than direct damage because of the reduced health regen
+  // by the mod. With no way to regenerate health during combat that means DOT
+  // are deadly.
+  if (this.isOnPlayer) {
+    amount *= 0.20;
+  }
+
+  return amount;
+}
