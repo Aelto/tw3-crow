@@ -2,5 +2,5 @@
 /// means more tickets.
 @wrapMethod(CTicketAlgorithmMelee)
 function CalculateTicketImportance(): float {
-  return wrappedMethod() * (this.GetNPC().GetStatPercents(BCS_Stamina) + 1);
+  return wrappedMethod() * (this.GetNPC().GetStatPercents(BCS_Stamina) * 1.5 + 1);
 }
