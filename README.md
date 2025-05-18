@@ -39,7 +39,6 @@ Additionally food items last much longer than their intended duration and can al
 # Installing
  - Go to the [latest release](./tw3-crow/latest) and download the archive
  - Drop the content of the archive into your The Witcher 3 directory in order
- - Merge the scripts, even if CROW is your only mod
  - Launch the game
 
 # Uninstalling
