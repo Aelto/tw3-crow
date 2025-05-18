@@ -28,13 +28,13 @@ Additionally the rules for their ability to counter attack were tweaked to make 
 The combination of the other modules where an aggressive playstyle is recommended and where you're given the tools to face such situations thanks to permissive counters and non punishing dodges, the fights will often turn into a dance between you and the enemy until one decides to dodge out or dies...
 
 # Combat Regeneration
-This module adds a sense of preparation not by forcing you to chug consumables in order to overcome the opponents strength, but by limiting greatly how much health regeneration you get from these items.
+This module adds a sense of preparation, not by forcing you to chug consumables in order to overcome the opponents strength, but by greatly limiting how much health regeneration you get from these items.
 
-However a lowered health regeneration with nothing else in return would make all encounters extremely deadly, which is not the point of the module. Instead it's here to encourage you to approach the game in a more deliberate manner, where you think about the ongoing fight but also the impact it will have to the incoming one if you take too many hits.
+However a lowered health regeneration with nothing else in return would make all encounters extremely deadly, which is not the point of the module. Instead it's here to encourage you to approach the game in a more deliberate manner, where you think about the ongoing fight but also the impact it will have to the future ones if you take too many hits now.
 
 For this reason on top of the health regeneration decrease, Geralt receives only half the damage it would normally take so when you take a hit half the punishment comes as health loss and the other half comes later on as you'll try to heal it back.
 
-Additionally food items last much longer than their intended duration and can also stack, you can for example eat two Bread which will result in two health regeneration effects that both last 20 minutes each. This gives you control over the amount of health and the speed at which it comes back for the scenarios where you may have to quickly heal back to full life without having to stare at the screen for twenty minutes.
+Additionally food items last much longer than their intended duration and can also stack, you can for example eat two Bread which will result in two health regeneration effects that both last 20 minutes each. This gives you control over the amount of health and the speed at which it comes back for the scenarios where you may have to quickly heal back to full life without having to stare at the screen for twenty minutes, but doing so too often will come at a price as your food stock will quickly vanish.
 
 # Installing
  - Go to the [latest release](./tw3-crow/latest) and download the archive
@@ -44,9 +44,6 @@ Additionally food items last much longer than their intended duration and can al
 
 # Uninstalling
  - Remove the CROW modules you have installed from your `mods` folder as usual
-
-# Recommended mods to use alongside CROW
-- [Faster Fatties](https://www.nexusmods.com/witcher3/mods/3997) by Partoutatix. Increases the speed of otherwise slow creatures.
 
 ## Dependencies
  - `mod_sharedutils_helpers`
