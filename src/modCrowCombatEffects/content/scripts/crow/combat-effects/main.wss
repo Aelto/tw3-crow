@@ -1,0 +1,5 @@
+function CROW_isEffectModified(effect: EEffectType): bool {
+  return effect == EET_Bleeding
+      || effect == EET_Burning
+      || effect == EET_Poison;
+}

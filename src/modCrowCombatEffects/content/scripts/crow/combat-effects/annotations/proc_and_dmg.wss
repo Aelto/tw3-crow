@@ -1,0 +1,152 @@
+/// STEP 0:
+/// increase duration by 100, to make it a 100% proc chance (or even more).
+/// the multiplied value will then be used to estimate the original proc chance
+/// and adjust the strength of the effect from that initial value.
+
+@addMethod(W3DamageAction)
+function CROW_modifyEffectsProcAndDuration() {
+  var i: int;
+
+  for (i = 0; i < this.effectInfos.Size(); i += 1) {
+    // this.effectInfos is an array<SEffectInfo>;
+
+    if (!CROW_isEffectModified(this.effectInfos[i].effectType)) {
+      continue;
+    }
+
+    LogChannel('CROWEFFECTS', "effect = " + this.effectInfos[i].effectType + " applyChance = " + this.effectInfos[i].applyChance);
+
+    this.effectInfos[i].applyChance *= 100;
+  }
+}
+
+@wrapMethod(W3EffectManager)
+function AddEffectsFromAction(action: W3DamageAction ): bool {
+  action.CROW_modifyEffectsProcAndDuration();
+  return wrappedMethod(action);
+}
+
+/// STEP 1:
+/// cache the initial proc chance that is calculated from the tweaked value.
+/// The caching is there as the other methods we'll wrap in the next steps do
+/// not have access to the proc chance anymore since the proc is already
+/// considered successful.
+@addField(W3EffectManager)
+var crow_effect_initial_proc_chance: float;
+
+@wrapMethod(W3EffectManager)
+function GetNonSignApplyBuffTest(applyChance: float): bool {
+  if (applyChance >= 1) {
+    this.crow_effect_initial_proc_chance = applyChance * 0.01;
+
+    LogChannel('CROWEFFECTS', "crow_effect_initial_proc_chance = " + this.crow_effect_initial_proc_chance);
+  }
+  else {
+    this.crow_effect_initial_proc_chance = 0;
+  }
+
+  return wrappedMethod(applyChance);
+}
+
+/// STEP 2:
+/// inform newly created effects when they should use tweaked values, and give
+/// them their initial proc chance
+@addField(CBaseGameplayEffect)
+var crow_is_effect: bool;
+
+@addField(CBaseGameplayEffect)
+var crow_effect_type: EEffectType;
+
+@addField(CBaseGameplayEffect)
+var crow_initial_proc_chance: float;
+
+@wrapMethod(W3GameEffectManager)
+function MakeNewEffect(
+  effect: EEffectType,
+  ownr: CGameplayEntity,
+  target: CActor,
+  effectManager: W3EffectManager,
+  inDuration: float,
+  srcName: string,
+  optional powerStatValue: SAbilityAttributeValue,
+  optional customVal: SAbilityAttributeValue,
+  optional customAbilityName: name,
+  optional customFXName: name,
+  optional signEffect: bool,
+  optional vibratePadLowFreq: float,
+  optional vibratePadHighFreq: float
+): CBaseGameplayEffect {
+  var gameplay_effect: CBaseGameplayEffect = wrappedMethod(
+    effect,
+    ownr,
+    target,
+    effectManager,
+    inDuration,
+    srcName,
+    powerStatValue,
+    customVal,
+    customAbilityName,
+    customFXName,
+    signEffect,
+    vibratePadLowFreq,
+    vibratePadHighFreq
+  );
+
+  if (gameplay_effect) {
+    gameplay_effect.crow_is_effect = CROW_isEffectModified(effect);
+    gameplay_effect.crow_initial_proc_chance = effectManager.crow_effect_initial_proc_chance;
+    gameplay_effect.crow_effect_type = effect;
+
+    LogChannel('CROWEFFECTS', "crow_initial_proc_chance = " + effectManager.crow_effect_initial_proc_chance);
+  }
+
+  return gameplay_effect;
+}
+
+/// STEP 3:
+/// adjust the value of the DOT if it's tweaked by CROW based on the initial
+/// proc chance.
+@wrapMethod(W3DamageOverTimeEffect)
+function CalculateDamage(
+  arrayIndex: int,
+  maxVit: float,
+  maxEss: float,
+  dt: float
+): float {
+  var result: float = wrappedMethod(arrayIndex, maxVit, maxEss, dt);
+
+  if (this.crow_is_effect && this.crow_initial_proc_chance > 0) {
+    result *= this.crow_initial_proc_chance;
+  }
+
+  return result;
+}
+
+/// STEP 4:
+
+@addField(CActor)
+var crow_effect_manager: CROW_CriticalEffectManager;
+
+@wrapMethod(CActor)
+function ChooseCurrentCriticalBuffForAnim(): CBaseGameplayEffect {
+  var result: CBaseGameplayEffect = wrappedMethod();
+
+  // it found a critical effect, we can start filtering results
+  if (result) {
+    if (!this.crow_effect_manager) {
+      this.crow_effect_manager = new CROW_CriticalEffectManager in this;
+    }
+
+    var effects: array<CBaseGameplayEffect> = this.effectManager
+      .GetCurrentEffects();
+
+    if (!this.crow_effect_manager.findEffectToApply(effects, result)) {
+      result = NULL;
+    }
+
+    LogChannel('CROWEFFECTS', "result.crow_effect_type = " + result.crow_effect_type);
+
+  }
+
+  return result;
+}

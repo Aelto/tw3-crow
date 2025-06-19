@@ -1,0 +1,17 @@
+/// If a similar effect is added, and even if they can stack the game will first
+/// try to see if it can cumulate with an existing effect. That is, if the new
+/// effect is stronger than the current one then it replaces the old one,
+/// otherwise it will be denied because the new effect is weaker.
+///
+/// This wrapper prevents the deny of edibles and allow them to create a new
+/// effect no matter the strength or duration.
+@wrapMethod(CBaseGameplayEffect)
+function GetSelfInteraction(other: CBaseGameplayEffect): EEffectInteract {
+  var result: EEffectInteract = wrappedMethod(other);
+
+  if (this.crow_is_effect) {
+    return EI_Pass;
+  }
+
+  return result;
+}

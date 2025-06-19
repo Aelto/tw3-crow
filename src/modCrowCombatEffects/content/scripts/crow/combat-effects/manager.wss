@@ -1,0 +1,47 @@
+class CROW_CriticalEffectManager {
+  private var burning_counter: float;
+  private var burning_effect: CBaseGameplayEffect;
+
+  public function findEffectToApply(
+    out effects: array<CBaseGameplayEffect>,
+    out output: CBaseGameplayEffect
+  ): bool {
+    for effect: CBaseGameplayEffect in effects {
+      if (!effect.crow_is_effect) {
+        continue;
+      }
+
+      if (effect.crow_effect_type == EET_Burning) {
+        this.burning_counter += effect.crow_initial_proc_chance;
+
+        if (!this.burning_counter) {
+          this.burning_effect = effect;
+        }
+        else if (effect.GetDurationLeft() > this.burning_effect.GetDurationLeft()) {
+          this.burning_effect = effect;
+        }
+      }
+    }
+
+    return this.findStrongestEffect(output);
+  }
+
+  private function reset() {
+    this.burning_counter = 0;
+    this.burning_effect = NULL;
+  }
+
+  private function findStrongestEffect(out output: CBaseGameplayEffect): bool {
+    // there is only one critical effect we use at the moment so the check is
+    // simple
+    if (this.burning_counter >= 1.0) {
+      if (this.burning_effect) {
+        output = this.burning_effect;
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+}
