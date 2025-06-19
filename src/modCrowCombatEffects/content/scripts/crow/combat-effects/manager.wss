@@ -8,6 +8,12 @@ class CROW_CriticalEffectManager {
   ): bool {
     for effect: CBaseGameplayEffect in effects {
       if (!effect.crow_is_effect) {
+        // if the effect is not affected by CROW and it's a critical effect,
+        // leave early and keep the original `output` unchanged.
+        if (GetBuffCriticalType(effect) != ECST_None) {
+          return true;
+        }
+
         continue;
       }
 
