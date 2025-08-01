@@ -94,7 +94,7 @@ class CROW_CombatStaminaRegenBuffCounter {
 
   function tick(delta: float) {
     var remaining_buff_count: int;
-    var now: float = SUH_now();
+    var now: float = theGame.GetEngineTimeAsSeconds();
     var i: int;
 
     this.is_running = true;

@@ -3,6 +3,7 @@ dist
 *.exe
 .vscode
 release
+release.bundled
 node_modules
 *.js
 package-lock.json
