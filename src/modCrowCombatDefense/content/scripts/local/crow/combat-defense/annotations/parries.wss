@@ -11,7 +11,7 @@ function CanParryAttack(): bool {
 
 @wrapMethod(W3Action_Attack)
 function IsParried(): bool {
-  return wrappedMethod() && false;
+  return wrappedMethod() && !CROW_DefenseIsEnabled();
 }
 
 @wrapMethod(CR4Player)
@@ -46,7 +46,7 @@ function ProcessParryInfo(
 
   // do it after the wrappedMethod as `canBeParried` has extra checks and doesn't
   // only rely on the provided parameter above
-  if (target == thePlayer && attacker != thePlayer) {
+  if (target == thePlayer && attacker != thePlayer && CROW_DefenseIsEnabled()) {
     result.canBeParried = true;
   }
 
@@ -55,6 +55,6 @@ function ProcessParryInfo(
 
 @wrapMethod(CGameplayEntity)
 function HasAbility(abilityName: name, optional includeInventoryAbl: bool): bool {
-  return abilityName != 'CannotBeCountered'
+  return (!CROW_DefenseIsEnabled() || abilityName != 'CannotBeCountered')
       && wrappedMethod(abilityName, includeInventoryAbl);
 }

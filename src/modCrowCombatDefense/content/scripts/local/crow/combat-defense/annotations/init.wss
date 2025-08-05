@@ -1,0 +1,17 @@
+@addField(CR4Player)
+var CROW_defense_enabled: bool;
+
+@wrapMethod(CR4Player)
+function OnSpawned(spawnData: SEntitySpawnData) {
+  wrappedMethod(spawnData);
+
+  var region: string;
+  region = AreaTypeToName(theGame.GetCommonMapManager().GetCurrentArea());
+
+  this.CROW_defense_enabled = region != "kaer_morhen"
+    || FactsDoesExist('q001_nightmare_ended');
+}
+
+function CROW_DefenseIsEnabled(): bool {
+  return thePlayer.CROW_defense_enabled;
+}

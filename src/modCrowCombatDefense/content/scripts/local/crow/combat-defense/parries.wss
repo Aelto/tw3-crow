@@ -1,10 +1,10 @@
 
 function CROW_canParryAnything(): bool {
-  return true;
+  return CROW_DefenseIsEnabled();
 }
 
 function CROW_canParryAttack(vanilla_result: bool): bool {
-  return false;
+  return !CROW_DefenseIsEnabled(); // false if mod enabled
 }
 
 function CROW_canParryArrow(out parry_info: SParryInfo): bool {
