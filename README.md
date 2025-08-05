@@ -4,7 +4,8 @@ CROW is a modular package, it consists of multiple mods that you can install ind
 - CROW Combat Stamina: decreases the passive stamina regeneration but greatly rewards successful hits by providing stamina regeneration buffs for a short duration
 - CROW Combat Defense: puts the counters (perfect parries) at the center of the combat system and transforms dodges into a positioning tool to create a truly melee & fast paced combat experience.
 - CROW Aggression: ties the aggression level of your enemies with their stamina, adjust their behaviour to be less predictable
-- CROW Combat Regeneration: adds challenge by limiting how easily you can heal back from your mistakes.
+- Optional modules, not included in the all-in-one package:
+  - CROW Combat Regeneration: adds challenge by limiting how easily you can heal back from your mistakes.
 
 # Combat Stamina
 Unlike stamina systems where you are punished for doing actions by losing stamina, this mod goes the opposite way by drastically decreasing the stamina you'd get by playing passively (passive regeneration) and by giving you an incentive to play aggressively.
@@ -44,7 +45,3 @@ Additionally food items last much longer than their intended duration and can al
 # Uninstalling
  - Remove the CROW modules you have installed from your `mods` folder as usual
 
-## Dependencies
- - `mod_sharedutils_helpers`
- - `mod_sharedutils_storage`
- - `mod_sharedutils_customcooldowns`
