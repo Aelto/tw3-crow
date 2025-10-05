@@ -20,7 +20,7 @@ class CROW_CriticalEffectManager {
       if (effect.crow_effect_type == EET_Burning) {
         this.burning_counter += effect.crow_initial_proc_chance;
 
-        if (!this.burning_counter) {
+        if (!this.burning_effect) {
           this.burning_effect = effect;
         }
         else if (effect.GetDurationLeft() > this.burning_effect.GetDurationLeft()) {

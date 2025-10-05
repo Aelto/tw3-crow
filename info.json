@@ -1,0 +1,13 @@
+{
+  "name": "crow_combat_modules",
+  "modName": "CROW Combat Modules",
+  "version": "4.1.2",
+  "gameVersion": "28",
+  "description": "A modular combat package that aims to be permissive by rewarding an aggressive play-style without punishing the rest.",
+  "author": "",
+  "idSpace": 10000000,
+  "workshopId": 0,
+  "succesfullyCooked": false,
+  "dependencies": [],
+  "useLooseScripts": false
+}

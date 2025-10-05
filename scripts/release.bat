@@ -2,7 +2,7 @@ call variables.cmd
 
 set releasemods=%modpath%\release\mods
 set bundleddir=%modpath%\release.bundled
-set bundledmod=%bundleddir%\mods\modCROW
+set bundledmod=%bundleddir%\mods\modcrow
 set localpath=content\scripts\local\crow
 set bundledout=%bundledmod%\%localpath%
 
@@ -16,14 +16,15 @@ mkdir "%bundledout%"
 :: the vanilla edits of the mods and their local scripts:
 call compile
 
-call :movetorelease modCrowCommon true
-call :movetorelease modCrowCombatStamina true
-call :movetorelease modCrowCombatDefense true
-call :movetorelease modCrowCombatAggression true
-call :movetorelease modCrowCombatEffects true
+call :movetorelease modcrow_common true
+call :movetorelease modcrow_combat_stamina true
+call :movetorelease modcrow_combat_defense true
+call :movetorelease modcrow_combat_aggression true
+call :movetorelease modcrow_combat_effects true
 :: this one is not included in the bundled version as it is still a wip
-call :movetorelease modCrowCombatRegeneration false
+call :movetorelease modcrow_combat_regeneration false
 
+copy "%modpath%\info.json" "%modpath%\release.bundled\mods\modCROW\content\info.json" /y
 call compileblob
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
