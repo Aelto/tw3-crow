@@ -54,7 +54,9 @@ function OnCombatActionEndComplete() {
 @wrapMethod(CR4Player)
 function PerformParryCheck(parryInfo: SParryInfo): bool {
   if (wrappedMethod(parryInfo)) {
-    CROW_counterEntryPoint(this);
+    if (parryInfo.target == thePlayer) {
+      CROW_counterEntryPoint(this);
+    }
     return true;
   }
   
